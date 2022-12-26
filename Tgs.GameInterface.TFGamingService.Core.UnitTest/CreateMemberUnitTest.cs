@@ -1,4 +1,4 @@
-using System.Net;
+ï»¿using System.Net;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging.Abstractions;
 using RichardSzalay.MockHttp;
@@ -10,7 +10,7 @@ namespace Tgs.GameInterface.TFGamingService.Core.UnitTest;
 public class CreateMemberUnitTest
 {
     [TestMethod]
-    public async Task ³Ğ«Øª±®a¦¨¥\()
+    public async Task å‰µå»ºç©å®¶æˆåŠŸ()
     {
         var memberCode = "4ucmqplxkuyd";
         var apiUrl = new Uri($"https://spi-test.r4espt.com/api/v2/members/");
@@ -49,7 +49,7 @@ public class CreateMemberUnitTest
     }
 
     [TestMethod]
-    public async Task ª±®a¤w¸g¦s¦b()
+    public async Task ç©å®¶å·²ç¶“å­˜åœ¨()
     {
         var memberCode = "4ucmqplxb029";
         var apiUrl = new Uri($"https://spi-test.r4espt.com/api/v2/members/");
