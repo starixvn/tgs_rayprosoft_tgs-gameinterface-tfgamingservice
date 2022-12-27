@@ -181,15 +181,13 @@ internal class GameApiClient : IGameApiClient
 
         var bets = results.Select(x => new BetTransactionSettledResult
         {
-            PlayerCode = x!["member_code"]!.ToString(),
-            ExternalRoundId = x["id"]!.ToString(),
-            ExternalCreatedOn = DateTimeOffset.Parse(x["date_created"]!.ToString()),
-            ExternalClosedOn = DateTimeOffset.Parse(x["settlement_datetime"]!.ToString()),
-            Bet = x["amount"]!.GetValue<decimal>(),
-            ValidBet = x["amount"]!.GetValue<decimal>(),
-            PlayerWinLoss = GetPlayerWinLoss(x["result_status"]!.ToString(), x["earnings"]!.GetValue<decimal>(), x["amount"]!.GetValue<decimal>()),
-            Turnover = x["amount"]!.GetValue<decimal>(),
-            Settle = GetSettle(x["result_status"]!.ToString(), x["earnings"]!.GetValue<decimal>(), x["amount"]!.GetValue<decimal>()),
+            MemberCode = x!["member_code"]!.ToString(),
+            Id = x["id"]!.ToString(),
+            DateCreated = DateTimeOffset.Parse(x["date_created"]!.ToString()),
+            SettlementDatetime = DateTimeOffset.Parse(x["settlement_datetime"]!.ToString()),
+            Amount = x["amount"]!.GetValue<decimal>(),
+            ResultStatus = x["result_status"]!.GetValue<string?>(),
+            Earnings = x["earnings"]!.GetValue<decimal?>(),
             AdditionalData = x.ToString()
         }) ?? Enumerable.Empty<BetTransactionSettledResult>();
 
@@ -228,11 +226,10 @@ internal class GameApiClient : IGameApiClient
 
         var openBets = results.Select(x => new BetTransactionUnSettledResult
         {
-            PlayerCode = x!["member_code"]!.ToString(),
-            ExternalRoundId = x["id"]!.ToString(),
-            ExternalCreatedOn = DateTimeOffset.Parse(x["date_created"]!.ToString()),
-            Bet = x["amount"]!.GetValue<decimal>(),
-            ValidBet = x["amount"]!.GetValue<decimal>(),
+            MemberCode = x!["member_code"]!.ToString(),
+            Id = x["id"]!.ToString(),
+            DateCreated = DateTimeOffset.Parse(x["date_created"]!.ToString()),
+            Amount = x["amount"]!.GetValue<decimal>(),
             AdditionalData = x.ToString()
         }) ?? Enumerable.Empty<BetTransactionUnSettledResult>();
 
@@ -358,49 +355,6 @@ internal class GameApiClient : IGameApiClient
         var launchUrl = jsonNode["launch_url"]?.GetValue<string?>() ?? null;
 
         return launchUrl;
-    }
-
-    private static decimal GetPlayerWinLoss(string resultStatus, decimal earnings, decimal amount)
-    {
-        var playerWinLoss = 0M;
-        switch (resultStatus)
-        {
-            case "WIN":
-                playerWinLoss = earnings - amount;
-                break;
-
-            case "LOSS":
-                playerWinLoss = earnings;
-                break;
-
-            case "DRAW":
-            default:
-                break;
-        }
-
-        return playerWinLoss;
-    }
-
-    private static decimal GetSettle(string resultStatus, decimal earnings, decimal amount)
-    {
-        var settle = 0M;
-        switch (resultStatus)
-        {
-            case "WIN":
-                settle = earnings;
-                break;
-
-            case "LOSS":
-                break;
-
-            case "DRAW":
-                settle = amount;
-                break;
-
-            default:
-                break;
-        }
-        return settle;
     }
 
     private async ValueTask<JsonNode> PostAsync(Uri apiUrl, IDictionary<string, string> parameters, string apiToken, string logPrefix, CancellationToken cancellationToken = default)

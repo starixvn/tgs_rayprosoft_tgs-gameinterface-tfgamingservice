@@ -34,16 +34,40 @@ internal class GameHistorySettledQueryService : IQueryService<GameHistorySettled
 
         foreach (var bettingHistoryBet in bettingHistoryBets)
         {
+            var playerWinLoss = 0M;
+            var settle = 0M;
+            switch (bettingHistoryBet.ResultStatus)
+            {
+                case "WIN":
+                    playerWinLoss = bettingHistoryBet.Earnings!.Value - bettingHistoryBet.Amount;
+                    settle = bettingHistoryBet.Earnings!.Value;
+                    break;
+
+                case "LOSS":
+                    playerWinLoss = bettingHistoryBet.Earnings!.Value;
+                    break;
+
+                case "DRAW":
+                    break;
+
+                case "CANCELLED":
+                    settle = bettingHistoryBet.Amount;
+                    break;
+
+                default:
+                    break;
+            }
+
             yield return new GameHistorySettledResult(
-                PlayerCode: bettingHistoryBet.PlayerCode,
-                ExternalRoundId: bettingHistoryBet.ExternalRoundId,
-                ExternalCreatedOn: bettingHistoryBet.ExternalCreatedOn,
-                ExternalClosedOn: bettingHistoryBet.ExternalClosedOn,
-                Bet: bettingHistoryBet.Bet,
-                ValidBet: bettingHistoryBet.ValidBet,
-                PlayerWinLoss: bettingHistoryBet.PlayerWinLoss,
-                Turnover: bettingHistoryBet.Turnover,
-                Settle: bettingHistoryBet.Settle,
+                PlayerCode: bettingHistoryBet.MemberCode,
+                ExternalRoundId: bettingHistoryBet.Id,
+                ExternalCreatedOn: bettingHistoryBet.DateCreated,
+                ExternalClosedOn: bettingHistoryBet.SettlementDatetime,
+                Bet: bettingHistoryBet.Amount,
+                ValidBet: bettingHistoryBet.Amount,
+                PlayerWinLoss: playerWinLoss,
+                Turnover: bettingHistoryBet.Amount,
+                Settle: settle,
                 AdditionalData: bettingHistoryBet.AdditionalData);
         }
     }

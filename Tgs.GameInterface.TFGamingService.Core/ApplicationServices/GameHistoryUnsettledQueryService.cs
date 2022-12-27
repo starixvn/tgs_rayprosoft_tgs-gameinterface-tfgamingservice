@@ -36,11 +36,11 @@ internal class GameHistoryUnsettledQueryService : IQueryService<GameHistoryUnset
         foreach (var openBet in openBets)
         {
             yield return new GameHistoryUnsettledResult(
-                PlayerCode: openBet.PlayerCode,
-                ExternalRoundId: openBet.ExternalRoundId,
-                ExternalCreatedOn: openBet.ExternalCreatedOn,
-                Bet: openBet.Bet,
-                ValidBet: openBet.ValidBet,
+                PlayerCode: openBet.MemberCode,
+                ExternalRoundId: openBet.Id,
+                ExternalCreatedOn: openBet.DateCreated,
+                Bet: openBet.Amount,
+                ValidBet: openBet.Amount,
                 AdditionalData: JsonSerializer.Serialize(openBet));
         }
     }
