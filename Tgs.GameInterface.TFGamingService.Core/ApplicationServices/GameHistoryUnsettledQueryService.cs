@@ -1,5 +1,4 @@
 ﻿using System.Runtime.CompilerServices;
-using System.Text.Json;
 using Tgs.ServiceUtility;
 
 namespace Tgs.GameInterface.TFGamingService.Core.ApplicationServices;
@@ -41,7 +40,7 @@ internal class GameHistoryUnsettledQueryService : IQueryService<GameHistoryUnset
                 ExternalCreatedOn: openBet.DateCreated,
                 Bet: openBet.Amount,
                 ValidBet: openBet.Amount,
-                AdditionalData: JsonSerializer.Serialize(openBet));
+                AdditionalData: openBet.AdditionalData);
         }
     }
 }
