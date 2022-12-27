@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging.Abstractions;
 using RichardSzalay.MockHttp;
 using Tgs.GameInterface.TFGamingService.Core.Exceptions;
@@ -29,7 +28,7 @@ public class WithdrawUnitTest
                 "balance_amount": 1900.0
             }
             """;
-        
+
         var handler = new MockHttpMessageHandler();
 
         _ = handler.Expect(HttpMethod.Post, apiUrl.ToString())

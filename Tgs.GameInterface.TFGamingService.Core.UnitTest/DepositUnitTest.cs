@@ -1,7 +1,5 @@
 ﻿using System.Net;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging.Abstractions;
-using Newtonsoft.Json;
 using RichardSzalay.MockHttp;
 using Tgs.GameInterface.TFGamingService.Core.Exceptions;
 
@@ -30,7 +28,7 @@ public class DepositUnitTest
                 "balance_amount": 11154.2
             }
             """;
-        
+
         var handler = new MockHttpMessageHandler();
 
         _ = handler.Expect(HttpMethod.Post, apiUrl.ToString())
@@ -84,7 +82,7 @@ public class DepositUnitTest
         var fakeHttpClient = handler.ToHttpClient();
         var fakeLog = NullLogger<GameApiClient>.Instance;
 
-        var sut = new GameApiClient(fakeHttpClient, fakeLog);      
+        var sut = new GameApiClient(fakeHttpClient, fakeLog);
 
         _ = await Assert
         .ThrowsExceptionAsync<GameProviderResponseErrorException>(() =>

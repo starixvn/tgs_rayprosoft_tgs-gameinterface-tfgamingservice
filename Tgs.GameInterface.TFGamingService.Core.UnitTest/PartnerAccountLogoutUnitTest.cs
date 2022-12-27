@@ -1,5 +1,4 @@
-using System.Net;
-using Microsoft.AspNetCore.WebUtilities;
+ï»¿using System.Net;
 using Microsoft.Extensions.Logging.Abstractions;
 using RichardSzalay.MockHttp;
 
@@ -9,7 +8,7 @@ namespace Tgs.GameInterface.TFGamingService.Core.UnitTest;
 public class PartnerAccountLogoutUnitTest
 {
     [TestMethod]
-    public async Task ·|­ûµn¥X¦¨¥\()
+    public async Task æœƒå“¡ç™»å‡ºæˆåŠŸ()
     {
         var memberCode = "4ucmqplxb029";
         var apiUrl = new Uri($"https://spi-test.r4espt.com/api/v2/partner-account-logout/");
@@ -21,7 +20,7 @@ public class PartnerAccountLogoutUnitTest
                     "member": "4ucmqplxb029"
                 }
             """;
-        
+
         var handler = new MockHttpMessageHandler();
 
         _ = handler.Expect(HttpMethod.Post, apiUrl.ToString())

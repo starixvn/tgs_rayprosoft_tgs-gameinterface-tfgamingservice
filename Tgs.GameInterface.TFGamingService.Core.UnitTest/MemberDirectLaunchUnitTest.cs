@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging.Abstractions;
 using RichardSzalay.MockHttp;
 
@@ -21,7 +20,7 @@ public class MemberDirectLaunchUnitTest
                 "launch_url": "https://gc-test.r4espt.com/launch.html?game_launch_token=000211c425bb286d4221b16b6abf8310f7767199188ae57e42a4b1bc34b52c5e10ede5a624eeb1b7e886e64da6a6a1fdd3c636f2655ebbf50c6744a519e3516e924cd38ca8394dcbb3bba81ade62d6126a8cae19279237a373f08f679e3fd6df5a3fe0921e4823f72ecc0f24ecd93593f41738ea1c9381a43fae1a467405db3799a4"
             }
         """;
-        
+
         var handler = new MockHttpMessageHandler();
 
         _ = handler.Expect(HttpMethod.Post, apiUrl.ToString())
