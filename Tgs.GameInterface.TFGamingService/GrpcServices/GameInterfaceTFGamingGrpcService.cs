@@ -3,6 +3,7 @@ using Grpc.Core;
 using Tgs.GameInterface.TFGamingService.Core.ApplicationServices;
 using Tgs.GameInterface.TFGamingService.Protos;
 using Tgs.ServiceUtility;
+using Enum = System.Enum;
 
 namespace Tgs.GameInterface.TFGamingService.GrpcServices;
 
@@ -156,6 +157,7 @@ internal class GameInterfaceTFGamingGrpcService : GameInterfaceTFGamingService.G
                 {
                     PlayerCode = gameHistorySettled.PlayerCode,
                     ExternalRoundId = gameHistorySettled.ExternalRoundId,
+                    Status = (GameHistoryStatus)Enum.Parse(typeof(GameHistoryStatus), gameHistorySettled.Status.Replace(" ", string.Empty), true),
                     ExternalCreatedOn = gameHistorySettled.ExternalCreatedOn.ToTimestamp(),
                     ExternalClosedOn = gameHistorySettled.ExternalClosedOn.ToTimestamp(),
                     Bet = gameHistorySettled.Bet,
