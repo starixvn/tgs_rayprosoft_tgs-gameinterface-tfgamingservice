@@ -36,6 +36,7 @@ internal class GameHistorySettledQueryService : IQueryService<GameHistorySettled
         {
             var playerWinLoss = 0M;
             var settle = 0M;
+
             switch (bettingHistoryBet.ResultStatus)
             {
                 case "WIN":
@@ -61,6 +62,7 @@ internal class GameHistorySettledQueryService : IQueryService<GameHistorySettled
             yield return new GameHistorySettledResult(
                 PlayerCode: bettingHistoryBet.MemberCode,
                 ExternalRoundId: bettingHistoryBet.Id,
+                Status: bettingHistoryBet.ResultStatus!,
                 ExternalCreatedOn: bettingHistoryBet.DateCreated,
                 ExternalClosedOn: bettingHistoryBet.SettlementDatetime,
                 Bet: bettingHistoryBet.Amount,

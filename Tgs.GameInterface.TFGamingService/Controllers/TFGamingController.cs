@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Tgs.GameInterface.TFGamingService.Core.ApplicationServices;
+using Tgs.GameInterface.TFGamingService.Protos;
 using Tgs.GameInterface.TFGamingService.ViewModels;
 using Tgs.ServiceUtility;
 
@@ -384,6 +385,7 @@ public class TFGamingController : ControllerBase
             yield return new GameHistorySettledResultViewModel(
                 PlayerCode: gameRecord.PlayerCode,
                 ExternalRoundId: gameRecord.ExternalRoundId,
+                Status: (GameHistoryStatus)Enum.Parse(typeof(GameHistoryStatus), gameRecord.Status.Replace(" ", string.Empty), true),
                 ExternalCreatedOn: gameRecord.ExternalCreatedOn,
                 ExternalClosedOn: gameRecord.ExternalClosedOn,
                 Bet: gameRecord.Bet,

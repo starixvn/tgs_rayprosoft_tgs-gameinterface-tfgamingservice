@@ -40,9 +40,5 @@ public record BetTransactionSettledResult
     /// </summary>
     public decimal? Earnings { get; init; }
 
-    
-    public decimal PlayerWinLoss { get; init; }
-    public decimal Turnover { get; init; }
-    public decimal Settle { get; init; }
     public string AdditionalData { get; init; } = default!;
 }

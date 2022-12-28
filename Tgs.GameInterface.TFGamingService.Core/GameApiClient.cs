@@ -187,7 +187,7 @@ internal class GameApiClient : IGameApiClient
             SettlementDatetime = DateTimeOffset.Parse(x["settlement_datetime"]!.ToString()),
             Amount = x["amount"]!.GetValue<decimal>(),
             ResultStatus = x["result_status"]!.GetValue<string?>(),
-            Earnings = x["earnings"]!.GetValue<decimal?>(),
+            Earnings = x["earnings"]!.GetValue<decimal?>(),            
             AdditionalData = x.ToString()
         }) ?? Enumerable.Empty<BetTransactionSettledResult>();
 
