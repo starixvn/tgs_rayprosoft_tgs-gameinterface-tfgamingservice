@@ -5,23 +5,23 @@ public record BetTransactionSettledResult
     /// <summary>
     /// 会员号
     /// </summary>
-    public string MemberCode { get; init; } = default!;
+    public string PlayerCode { get; init; } = default!;
     /// <summary>
     /// 注单号
     /// </summary>
-    public string Id { get; init; } = default!;
+    public string ExternalRoundId { get; init; } = default!;
     /// <summary>
     /// 下注时间
     /// </summary>
-    public DateTimeOffset DateCreated { get; init; }
+    public DateTimeOffset ExternalCreatedOn { get; init; }
     /// <summary>
     /// 结算时间
     /// </summary>
-    public DateTimeOffset SettlementDatetime { get; init; }
+    public DateTimeOffset ExternalClosedOn { get; init; }
     /// <summary>
     /// 下注金额
     /// </summary>
-    public decimal Amount { get; init; }
+    public decimal Bet { get; init; }
     /// <summary>
     /// 注单结果<br/>
     /// WIN = 赢<br/>

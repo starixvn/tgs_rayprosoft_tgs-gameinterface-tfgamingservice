@@ -181,11 +181,11 @@ internal class GameApiClient : IGameApiClient
 
         var bets = results.Select(x => new BetTransactionSettledResult
         {
-            MemberCode = x!["member_code"]!.ToString(),
-            Id = x["id"]!.ToString(),
-            DateCreated = DateTimeOffset.Parse(x["date_created"]!.ToString()),
-            SettlementDatetime = DateTimeOffset.Parse(x["settlement_datetime"]!.ToString()),
-            Amount = x["amount"]!.GetValue<decimal>(),
+            PlayerCode = x!["member_code"]!.ToString(),
+            ExternalRoundId = x["id"]!.ToString(),
+            ExternalCreatedOn = DateTimeOffset.Parse(x["date_created"]!.ToString()),
+            ExternalClosedOn = DateTimeOffset.Parse(x["settlement_datetime"]!.ToString()),
+            Bet = x["amount"]!.GetValue<decimal>(),
             ResultStatus = x["result_status"] == null 
                 ? null 
                 : x["result_status"]!.ToString(),
