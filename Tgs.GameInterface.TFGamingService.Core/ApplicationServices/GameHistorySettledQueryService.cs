@@ -40,7 +40,7 @@ internal class GameHistorySettledQueryService : IQueryService<GameHistorySettled
             switch (bettingHistoryBet.ResultStatus)
             {
                 case "WIN":
-                    playerWinLoss = bettingHistoryBet.Earnings!.Value - bettingHistoryBet.Amount;
+                    playerWinLoss = bettingHistoryBet.Earnings!.Value - bettingHistoryBet.Bet;
                     settle = bettingHistoryBet.Earnings!.Value;
                     break;
 
@@ -52,7 +52,7 @@ internal class GameHistorySettledQueryService : IQueryService<GameHistorySettled
                     break;
 
                 case "CANCELLED":
-                    settle = bettingHistoryBet.Amount;
+                    settle = bettingHistoryBet.Bet;
                     break;
 
                 default:
@@ -60,15 +60,15 @@ internal class GameHistorySettledQueryService : IQueryService<GameHistorySettled
             }
 
             yield return new GameHistorySettledResult(
-                PlayerCode: bettingHistoryBet.MemberCode,
-                ExternalRoundId: bettingHistoryBet.Id,
+                PlayerCode: bettingHistoryBet.PlayerCode,
+                ExternalRoundId: bettingHistoryBet.ExternalRoundId,
                 Status: bettingHistoryBet.ResultStatus!,
-                ExternalCreatedOn: bettingHistoryBet.DateCreated,
-                ExternalClosedOn: bettingHistoryBet.SettlementDatetime,
-                Bet: bettingHistoryBet.Amount,
-                ValidBet: bettingHistoryBet.Amount,
+                ExternalCreatedOn: bettingHistoryBet.ExternalCreatedOn,
+                ExternalClosedOn: bettingHistoryBet.ExternalClosedOn,
+                Bet: bettingHistoryBet.Bet,
+                ValidBet: bettingHistoryBet.Bet,
                 PlayerWinLoss: playerWinLoss,
-                Turnover: bettingHistoryBet.Amount,
+                Turnover: bettingHistoryBet.Bet,
                 Settle: settle,
                 AdditionalData: bettingHistoryBet.AdditionalData);
         }
