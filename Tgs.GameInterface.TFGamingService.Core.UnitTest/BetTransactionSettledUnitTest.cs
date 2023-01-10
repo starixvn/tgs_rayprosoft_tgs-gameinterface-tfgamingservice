@@ -119,8 +119,7 @@ public class BetTransactionSettledUnitTest
                 apiUrl: apiUrl,
                 privateToken: privateToken,
                 startTime: startTime,
-                endTime: endTime,
-                page: page,
+                endTime: endTime,                
                 pageSize: pageSize)
             .ToArrayAsync()
             .ConfigureAwait(false);
@@ -166,8 +165,7 @@ public class BetTransactionSettledUnitTest
                 apiUrl: apiUrl,
                 privateToken: privateToken,
                 startTime: startTime,
-                endTime: endTime,
-                page: page,
+                endTime: endTime,                
                 pageSize: pageSize)
             .ToArrayAsync()
             .ConfigureAwait(false);

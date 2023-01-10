@@ -20,8 +20,7 @@ internal class GameHistoryUnsettledQueryService : IQueryService<GameHistoryUnset
                     apiUrl: query.ApiUrl,
                     privateToken: query.PrivateToken,
                     startTime: query.StartTime,
-                    endTime: query.EndTime,
-                    page: query.Page,
+                    endTime: query.EndTime,                    
                     pageSize: query.PageSize,
                     cancellationToken: cancellationToken)
                 .ToArrayAsync(cancellationToken)

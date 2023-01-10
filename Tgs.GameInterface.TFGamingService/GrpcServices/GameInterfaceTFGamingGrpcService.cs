@@ -138,7 +138,6 @@ internal class GameInterfaceTFGamingGrpcService : GameInterfaceTFGamingService.G
             PrivateToken: request.PrivateToken,
             StartTime: request.StartTime.ToDateTime(),
             EndTime: request.EndTime.ToDateTime(),
-            Page: request.Page,
             PageSize: request.PageSize);
 
         var gameHistorySettleds = await _gameHistorySettledService
@@ -180,7 +179,6 @@ internal class GameInterfaceTFGamingGrpcService : GameInterfaceTFGamingService.G
             PrivateToken: request.PrivateToken,
             StartTime: request.StartTime.ToDateTime(),
             EndTime: request.EndTime.ToDateTime(),
-            Page: request.Page,
             PageSize: request.PageSize);
 
         var gameHistoryUnsettleds = await _gameHistoryUnsettledService

@@ -121,7 +121,6 @@ public class BetTransactionUnSettledUnitTest
                 privateToken: privateToken,
                 startTime: startTime,
                 endTime: endTime,
-                page: page,
                 pageSize: pageSize)
             .ToArrayAsync()
             .ConfigureAwait(false);

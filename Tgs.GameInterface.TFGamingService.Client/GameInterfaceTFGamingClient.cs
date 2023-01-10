@@ -107,9 +107,8 @@ namespace Tgs.GameInterface.TFGamingService.Client
             Uri apiUrl,
             string privateToken,
             DateTime startTime,
-            DateTime endTime,
-            int page = 1,
-            int pageSize = 100,
+            DateTime endTime,            
+            int pageSize = 1000,
             [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             var request = new GameHistorySettledRequest
@@ -117,8 +116,7 @@ namespace Tgs.GameInterface.TFGamingService.Client
                 ApiUrl = apiUrl.ToString(),
                 PrivateToken = privateToken,
                 StartTime = startTime.ToTimestamp(),
-                EndTime = endTime.ToTimestamp(),
-                Page = page,
+                EndTime = endTime.ToTimestamp(),                
                 PageSize = pageSize,
             };
 
@@ -143,9 +141,8 @@ namespace Tgs.GameInterface.TFGamingService.Client
             Uri apiUrl,
             string privateToken,
             DateTime startTime,
-            DateTime endTime,
-            int page = 1,
-            int pageSize = 100,
+            DateTime endTime,            
+            int pageSize = 1000,
             [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             var request = new GameHistoryUnsettledRequest
@@ -153,8 +150,7 @@ namespace Tgs.GameInterface.TFGamingService.Client
                 ApiUrl = apiUrl.ToString(),
                 PrivateToken = privateToken,
                 StartTime = startTime.ToTimestamp(),
-                EndTime = endTime.ToTimestamp(),
-                Page = page,
+                EndTime = endTime.ToTimestamp(),                
                 PageSize = pageSize,
             };
 
