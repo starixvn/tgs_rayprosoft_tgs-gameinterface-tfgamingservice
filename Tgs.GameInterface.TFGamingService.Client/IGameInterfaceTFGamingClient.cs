@@ -65,17 +65,15 @@ public interface IGameInterfaceTFGamingClient
         Uri apiUrl,
         string privateToken,
         DateTime startTime,
-        DateTime endTime,
-        int page = 1,
-        int pageSize = 100,
+        DateTime endTime,        
+        int pageSize = 1000,
         CancellationToken cancellationToken = default);
 
     IAsyncEnumerable<GameHistoryUnsettled> GameHistoryUnsettledAsync(
         Uri apiUrl,
         string privateToken,
         DateTime startTime,
-        DateTime endTime,
-        int page = 1,
-        int pageSize = 100,
+        DateTime endTime,        
+        int pageSize = 1000,
         CancellationToken cancellationToken = default);
 }

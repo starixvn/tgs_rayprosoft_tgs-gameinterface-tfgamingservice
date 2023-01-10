@@ -62,18 +62,16 @@ message GameHistorySettledRequest {
 	string api_url = 1;
 	string private_token = 2;
 	google.protobuf.Timestamp start_time = 3; 
-	google.protobuf.Timestamp end_time = 4;
-	int32 page = 5;
-	int32 page_size = 6;
+	google.protobuf.Timestamp end_time = 4;	
+	int32 page_size = 5;
 }
 
 message GameHistoryUnsettledRequest {
 	string api_url = 1;
 	string private_token = 2;
 	google.protobuf.Timestamp start_time = 3; 
-	google.protobuf.Timestamp end_time = 4;
-	int32 page = 5;
-	int32 page_size = 6;
+	google.protobuf.Timestamp end_time = 4;	
+	int32 page_size = 5;
 }
 
 message PlayerKickRequest {

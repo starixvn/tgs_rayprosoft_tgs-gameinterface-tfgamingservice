@@ -14,8 +14,7 @@ public class BetTransactionSettledUnitTest
         var apiUrl = new Uri("https://spi-test.r4espt.com/api/v2/bet-transaction/");
         var privateToken = "0002fc0c96401e68419756f562689ed6e8e1ea398406f710d4d3f1c99b04f61b8fc0bea712b7d674f8be0dbb69a7a3aca0b02b423c73257eeb87521799ec7479218285597e314f5b18189eb8ebfc2bbf4dea799ad3b2fc74d99abb709ca86bc03d4daa5b17b078d4601152920903d18546c7335cb1008d2158f999ba0810a3643fcb";
         var startTime = DateTime.Parse("2022-12-23T05:43:37Z");
-        var endTime = DateTime.Parse("2022-12-23T07:43:37Z");
-        var page = 1;
+        var endTime = DateTime.Parse("2022-12-23T07:43:37Z");        
         var pageSize = 100;
 
         var response = """
@@ -98,8 +97,7 @@ public class BetTransactionSettledUnitTest
         var query = new Dictionary<string, string>
         {
             { "from_settlement_datetime", startTime.ToUniversalTime().ToString("u").Replace(" ", "T") },
-            { "to_settlement_datetime", endTime.ToUniversalTime().ToString("u").Replace(" ", "T") },
-            { "page", page.ToString() },
+            { "to_settlement_datetime", endTime.ToUniversalTime().ToString("u").Replace(" ", "T") },            
             { "page_size", pageSize.ToString() }
         };
         var url = QueryHelpers.AddQueryString(apiUrl.ToString(), query);
@@ -119,8 +117,7 @@ public class BetTransactionSettledUnitTest
                 apiUrl: apiUrl,
                 privateToken: privateToken,
                 startTime: startTime,
-                endTime: endTime,
-                page: page,
+                endTime: endTime,                
                 pageSize: pageSize)
             .ToArrayAsync()
             .ConfigureAwait(false);
@@ -135,8 +132,7 @@ public class BetTransactionSettledUnitTest
         var apiUrl = new Uri("https://spi-test.r4espt.com/api/v2/bet-transaction/");
         var privateToken = "0002fc0c96401e68419756f562689ed6e8e1ea398406f710d4d3f1c99b04f61b8fc0bea712b7d674f8be0dbb69a7a3aca0b02b423c73257eeb87521799ec7479218285597e314f5b18189eb8ebfc2bbf4dea799ad3b2fc74d99abb709ca86bc03d4daa5b17b078d4601152920903d18546c7335cb1008d2158f999ba0810a3643fcb";
         var startTime = DateTime.Parse("2023-01-04T05:43:37Z");
-        var endTime = DateTime.Parse("2023-01-06T07:43:37Z");
-        var page = 1;
+        var endTime = DateTime.Parse("2023-01-06T07:43:37Z");       
         var pageSize = 100;
 
         var response = """
@@ -145,8 +141,7 @@ public class BetTransactionSettledUnitTest
         var query = new Dictionary<string, string>
         {
             { "from_settlement_datetime", startTime.ToUniversalTime().ToString("u").Replace(" ", "T") },
-            { "to_settlement_datetime", endTime.ToUniversalTime().ToString("u").Replace(" ", "T") },
-            { "page", page.ToString() },
+            { "to_settlement_datetime", endTime.ToUniversalTime().ToString("u").Replace(" ", "T") },            
             { "page_size", pageSize.ToString() }
         };
         var url = QueryHelpers.AddQueryString(apiUrl.ToString(), query);
@@ -166,8 +161,7 @@ public class BetTransactionSettledUnitTest
                 apiUrl: apiUrl,
                 privateToken: privateToken,
                 startTime: startTime,
-                endTime: endTime,
-                page: page,
+                endTime: endTime,                
                 pageSize: pageSize)
             .ToArrayAsync()
             .ConfigureAwait(false);

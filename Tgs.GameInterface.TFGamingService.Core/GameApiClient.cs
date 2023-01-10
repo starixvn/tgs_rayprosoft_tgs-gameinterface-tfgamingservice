@@ -158,13 +158,12 @@ internal class GameApiClient : IGameApiClient
         return false;
     }
 
-    public async IAsyncEnumerable<BetTransactionSettledResult> BetTransactionSettledAsync(Uri apiUrl, string privateToken, DateTime startTime, DateTime endTime, int page = 1, int pageSize = 100, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<BetTransactionSettledResult> BetTransactionSettledAsync(Uri apiUrl, string privateToken, DateTime startTime, DateTime endTime, int pageSize = 1000, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         var parameters = new Dictionary<string, string>
         {
             ["from_settlement_datetime"] = startTime.ToUniversalTime().ToString("u").Replace(" ", "T"),
-            ["to_settlement_datetime"] = endTime.ToUniversalTime().ToString("u").Replace(" ", "T"),
-            ["page"] = page.ToString(),
+            ["to_settlement_datetime"] = endTime.ToUniversalTime().ToString("u").Replace(" ", "T"),            
             ["page_size"] = pageSize.ToString(),
         };
 
@@ -206,14 +205,13 @@ internal class GameApiClient : IGameApiClient
         }
     }
 
-    public async IAsyncEnumerable<BetTransactionUnSettledResult> BetTransactionUnSettledAsync(Uri apiUrl, string privateToken, DateTime startTime, DateTime endTime, int page = 1, int pageSize = 100, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<BetTransactionUnSettledResult> BetTransactionUnSettledAsync(Uri apiUrl, string privateToken, DateTime startTime, DateTime endTime, int pageSize = 1000, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         var parameters = new Dictionary<string, string>
         {
             ["settlement_status"] = "confirmed",
             ["from_datetime"] = startTime.ToUniversalTime().ToString("u").Replace(" ", "T"),
-            ["to_datetime"] = endTime.ToUniversalTime().ToString("u").Replace(" ", "T"),
-            ["page"] = page.ToString(),
+            ["to_datetime"] = endTime.ToUniversalTime().ToString("u").Replace(" ", "T"),            
             ["page_size"] = pageSize.ToString(),
         };
 

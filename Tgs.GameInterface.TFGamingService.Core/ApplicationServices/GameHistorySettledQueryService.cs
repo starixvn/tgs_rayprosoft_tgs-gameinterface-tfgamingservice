@@ -21,7 +21,6 @@ internal class GameHistorySettledQueryService : IQueryService<GameHistorySettled
                     privateToken: query.PrivateToken,
                     startTime: query.StartTime,
                     endTime: query.EndTime,
-                    page: query.Page,
                     pageSize: query.PageSize,
                     cancellationToken: cancellationToken)
                 .ToArrayAsync(cancellationToken)

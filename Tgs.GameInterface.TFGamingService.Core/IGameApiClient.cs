@@ -35,8 +35,7 @@ public interface IGameApiClient
         string privateToken,
         DateTime startTime,
         DateTime endTime,
-        int page = 1,
-        int pageSize = 100,
+        int pageSize = 1000,
         CancellationToken cancellationToken = default);
 
     IAsyncEnumerable<BetTransactionUnSettledResult> BetTransactionUnSettledAsync(
@@ -44,7 +43,6 @@ public interface IGameApiClient
         string privateToken,
         DateTime startTime,
         DateTime endTime,
-        int page = 1,
-        int pageSize = 100,
+        int pageSize = 1000,
         CancellationToken cancellationToken = default);
 }
