@@ -31,8 +31,9 @@ public class WithdrawUnitTest
 
         var handler = new MockHttpMessageHandler();
 
-        _ = handler.Expect(HttpMethod.Post, apiUrl.ToString())
-                        .Respond(HttpStatusCode.OK, new StringContent(response));
+        _ = handler
+            .Expect(HttpMethod.Post, apiUrl.ToString())
+            .Respond(HttpStatusCode.OK, new StringContent(response));
 
         var fakeHttpClient = handler.ToHttpClient();
         var fakeLog = NullLogger<GameApiClient>.Instance;
@@ -76,8 +77,9 @@ public class WithdrawUnitTest
 
         var handler = new MockHttpMessageHandler();
 
-        _ = handler.Expect(HttpMethod.Post, apiUrl.ToString())
-                        .Respond(HttpStatusCode.OK, new StringContent(response));
+        _ = handler
+            .Expect(HttpMethod.Post, apiUrl.ToString())
+            .Respond(HttpStatusCode.OK, new StringContent(response));
 
         var fakeHttpClient = handler.ToHttpClient();
         var fakeLog = NullLogger<GameApiClient>.Instance;

@@ -4,6 +4,10 @@ namespace Tgs.GameInterface.TFGamingService.Client;
 
 public interface IGameInterfaceTFGamingClient
 {
+    ValueTask<string> CheckingServiceAsync(
+        string machineName,
+        CancellationToken cancellationToken = default);
+
     ValueTask<FundReply> FundInAsync(
         Uri apiUrl,
         string operatorId,
@@ -30,7 +34,7 @@ public interface IGameInterfaceTFGamingClient
 
     IAsyncEnumerable<FundHistory> FundHistoryAsync(
         Uri apiUrl,
-        string privateToken,        
+        string privateToken,
         string? refTransactionCode,
         int? page,
         int? pageSize,
@@ -65,7 +69,7 @@ public interface IGameInterfaceTFGamingClient
         Uri apiUrl,
         string privateToken,
         DateTime startTime,
-        DateTime endTime,        
+        DateTime endTime,
         int pageSize = 1000,
         CancellationToken cancellationToken = default);
 
@@ -73,7 +77,7 @@ public interface IGameInterfaceTFGamingClient
         Uri apiUrl,
         string privateToken,
         DateTime startTime,
-        DateTime endTime,        
+        DateTime endTime,
         int pageSize = 1000,
         CancellationToken cancellationToken = default);
 }

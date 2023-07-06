@@ -1,11 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Tgs.GameInterface.TFGamingService.ViewModels;
+﻿namespace Tgs.GameInterface.TFGamingService.ViewModels;
 
 public record GameHistoryUnsettledViewModel(
     Uri ApiUrl,
     string PrivateToken,
     DateTime StartTime,
     DateTime EndTime,
-    int Page,    
+    int Page,
     int PageSize);

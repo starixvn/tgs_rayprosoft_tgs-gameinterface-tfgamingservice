@@ -1,5 +1,5 @@
 ﻿namespace Tgs.GameInterface.TFGamingService.Core.Models;
 
 public record WithdrawResult(
-    string RefTransactionCode,    
+    string RefTransactionCode,
     decimal Balance);

@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.0.5</Version>
+    <Version>0.0.6</Version>
     <Authors>Raypro</Authors>
     <Description>Tgs.GameInterface.TFGamingService.Client</Description>
     <PackageProjectUrl>https://gitlab.com/rayprosoft/tgs-gameinterface-tfgamingservice</PackageProjectUrl>
@@ -13,24 +13,19 @@
     <PackageTags>Tgs GameInterface TFGamingService</PackageTags>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="gameinterfacetfgamingservice.proto" />
-  </ItemGroup>
-
 	<ItemGroup>
-		<PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.49.0" />
-		<PackageReference Include="Grpc.Net.ClientFactory" Version="2.49.0" />
-		<PackageReference Include="Grpc.Tools" Version="2.50.0">
+		<PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.55.0" />
+		<PackageReference Include="Grpc.Net.ClientFactory" Version="2.55.0" />
+		<PackageReference Include="Grpc.Tools" Version="2.56.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="PhoenixToolkits.Protobuf.ExtendTypes" Version="0.0.6" />
 	</ItemGroup>
 
-
 	<ItemGroup>
-	  <Protobuf Include="gameinterfacetfgamingservice.proto">
-	    <GrpcServices>Client</GrpcServices>
+	  <Protobuf Include="..\Tgs.GameInterface.TFGamingService\Protos\gameinterfacetfgamingservice.proto">
+	    <Link>gameinterfacetfgamingservice.proto</Link>
 	  </Protobuf>
 	</ItemGroup>
 

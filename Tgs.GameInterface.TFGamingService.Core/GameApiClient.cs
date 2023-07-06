@@ -152,10 +152,7 @@ internal class GameApiClient : IGameApiClient
             "PartnerAccountLogout",
             cancellationToken).ConfigureAwait(false);
 
-        if (jsonNode["member"] is not null)
-            return true;
-
-        return false;
+        return jsonNode["member"] is not null;
     }
 
     public async IAsyncEnumerable<BetTransactionSettledResult> BetTransactionSettledAsync(Uri apiUrl, string privateToken, DateTime startTime, DateTime endTime, int pageSize = 1000, [EnumeratorCancellation] CancellationToken cancellationToken = default)
@@ -163,7 +160,7 @@ internal class GameApiClient : IGameApiClient
         var parameters = new Dictionary<string, string>
         {
             ["from_settlement_datetime"] = startTime.ToUniversalTime().ToString("u").Replace(" ", "T"),
-            ["to_settlement_datetime"] = endTime.ToUniversalTime().ToString("u").Replace(" ", "T"),            
+            ["to_settlement_datetime"] = endTime.ToUniversalTime().ToString("u").Replace(" ", "T"),
             ["page_size"] = pageSize.ToString(),
         };
 
@@ -185,8 +182,8 @@ internal class GameApiClient : IGameApiClient
             ExternalCreatedOn = DateTimeOffset.Parse(x["date_created"]!.ToString()),
             ExternalClosedOn = DateTimeOffset.Parse(x["settlement_datetime"]!.ToString()),
             Bet = x["amount"]!.GetValue<decimal>(),
-            ResultStatus = x["result_status"] == null 
-                ? null 
+            ResultStatus = x["result_status"] == null
+                ? null
                 : x["result_status"]!.ToString(),
             Earnings = x["earnings"] == null
                 ? null
@@ -211,7 +208,7 @@ internal class GameApiClient : IGameApiClient
         {
             ["settlement_status"] = "confirmed",
             ["from_datetime"] = startTime.ToUniversalTime().ToString("u").Replace(" ", "T"),
-            ["to_datetime"] = endTime.ToUniversalTime().ToString("u").Replace(" ", "T"),            
+            ["to_datetime"] = endTime.ToUniversalTime().ToString("u").Replace(" ", "T"),
             ["page_size"] = pageSize.ToString(),
         };
 
@@ -278,10 +275,7 @@ internal class GameApiClient : IGameApiClient
 
         var transfer = transfers.FirstOrDefault(x => x.PartnerReferenceNo == referenceNo);
 
-        if (transfer is null)
-            return false;
-
-        return transfer.Status == "success";
+        return transfer is not null && transfer.Status == "success";
     }
 
     public async IAsyncEnumerable<TransferStatusResult> TransferHistoryAsync(
@@ -377,7 +371,10 @@ internal class GameApiClient : IGameApiClient
 
         using (var sr = new StreamReader(httpResponseMessage.Content.ReadAsStreamAsync(cancellationToken).Result))
         {
-            responseMessage = await sr.ReadToEndAsync().ConfigureAwait(false) ?? string.Empty;
+            responseMessage = await sr
+                .ReadToEndAsync(
+                cancellationToken: cancellationToken)
+                .ConfigureAwait(false) ?? string.Empty;
         }
 
         var apiLogEvent = new GameApiLogEvent
@@ -427,7 +424,10 @@ internal class GameApiClient : IGameApiClient
 
         using (var sr = new StreamReader(httpResponseMessage.Content.ReadAsStreamAsync(cancellationToken).Result))
         {
-            responseMessage = await sr.ReadToEndAsync().ConfigureAwait(false) ?? string.Empty;
+            responseMessage = await sr
+                .ReadToEndAsync(
+                cancellationToken: cancellationToken)
+                .ConfigureAwait(false) ?? string.Empty;
         }
 
         var apiLogEvent = new GameApiLogEvent

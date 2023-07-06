@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using Microsoft.AspNetCore.WebUtilities;
+using System.Web;
 using Microsoft.Extensions.Logging.Abstractions;
 using RichardSzalay.MockHttp;
 
@@ -94,19 +94,19 @@ public class BetTransactionUnSettledUnitTest
                 ]
             }
             """;
-        var query = new Dictionary<string, string>
-        {
-            { "settlement_status", "confirmed" },
-            { "from_datetime", startTime.ToUniversalTime().ToString("u").Replace(" ", "T")},
-            { "to_datetime", endTime.ToUniversalTime().ToString("u").Replace(" ", "T")},
-            { "page_size", pageSize.ToString()}
-        };
-        var url = QueryHelpers.AddQueryString(apiUrl.ToString(), query);
+
+        var uriBuilder = new UriBuilder(apiUrl);
+        var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+        query["settlement_status"] = "confirmed";
+        query["from_datetime"] = startTime.ToUniversalTime().ToString("u").Replace(" ", "T");
+        query["to_datetime"] = endTime.ToUniversalTime().ToString("u").Replace(" ", "T");
+        query["page_size"] = pageSize.ToString();
+        uriBuilder.Query = query.ToString();
 
         var handler = new MockHttpMessageHandler();
-
-        _ = handler.Expect(HttpMethod.Get, url.ToString())
-                        .Respond(HttpStatusCode.OK, new StringContent(response));
+        _ = handler
+            .Expect(HttpMethod.Get, uriBuilder.ToString())
+            .Respond(HttpStatusCode.OK, new StringContent(response));
 
         var fakeHttpClient = handler.ToHttpClient();
         var fakeLog = NullLogger<GameApiClient>.Instance;

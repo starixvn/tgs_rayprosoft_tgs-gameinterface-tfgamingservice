@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using Microsoft.AspNetCore.WebUtilities;
+using System.Web;
 using Microsoft.Extensions.Logging.Abstractions;
 using RichardSzalay.MockHttp;
 
@@ -36,15 +36,16 @@ public class TransferHistoryUnitTest
                     ]
                 }
             """;
-        var query = new Dictionary<string, string>
-        {
-            {"reference_no", referenceNo }
-        };
-        var url = QueryHelpers.AddQueryString(apiUrl.ToString(), query);
+
+        var uriBuilder = new UriBuilder(apiUrl);
+        var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+        query["reference_no"] = referenceNo;
+        uriBuilder.Query = query.ToString();
 
         var handler = new MockHttpMessageHandler();
-        _ = handler.Expect(HttpMethod.Get, url)
-                        .Respond(HttpStatusCode.OK, new StringContent(response));
+        _ = handler
+            .Expect(HttpMethod.Get, uriBuilder.ToString())
+            .Respond(HttpStatusCode.OK, new StringContent(response));
 
         var fakeHttpClient = handler.ToHttpClient();
         var fakeLog = NullLogger<GameApiClient>.Instance;

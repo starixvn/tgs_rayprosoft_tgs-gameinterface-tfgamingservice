@@ -6,6 +6,6 @@ public record GameHistorySettledQuery(
     Uri ApiUrl,
     string PrivateToken,
     DateTime StartTime,
-    DateTime EndTime,    
+    DateTime EndTime,
     [property: Range(minimum: 100,maximum: 1000)]
     int PageSize);

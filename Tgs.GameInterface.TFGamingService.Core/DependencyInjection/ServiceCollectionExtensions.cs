@@ -5,7 +5,7 @@ namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddTFGamingServiceCore(
+    public static IServiceCollection AddGameInterfaceService(
         this IServiceCollection services)
         => services
             .AddHttpClient<IGameApiClient, GameApiClient>()

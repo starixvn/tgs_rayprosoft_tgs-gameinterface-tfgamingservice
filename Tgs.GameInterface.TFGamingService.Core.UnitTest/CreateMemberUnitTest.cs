@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using Microsoft.AspNetCore.WebUtilities;
+using System.Web;
 using Microsoft.Extensions.Logging.Abstractions;
 using RichardSzalay.MockHttp;
 using Tgs.GameInterface.TFGamingService.Core.Exceptions;
@@ -31,9 +31,9 @@ public class CreateMemberUnitTest
             """;
 
         var handler = new MockHttpMessageHandler();
-
-        _ = handler.Expect(HttpMethod.Post, apiUrl.ToString())
-                        .Respond(HttpStatusCode.OK, new StringContent(response));
+        _ = handler
+            .Expect(HttpMethod.Post, apiUrl.ToString())
+            .Respond(HttpStatusCode.OK, new StringContent(response));
 
         var fakeHttpClient = handler.ToHttpClient();
         var fakeLog = NullLogger<GameApiClient>.Instance;
@@ -65,12 +65,14 @@ public class CreateMemberUnitTest
                     "code": 1
                 }
             """;
-        var query = new Dictionary<string, string>();
-        var url = QueryHelpers.AddQueryString(apiUrl.ToString(), query);
-        var handler = new MockHttpMessageHandler();
+        var uriBuilder = new UriBuilder(apiUrl);
+        var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+        uriBuilder.Query = query.ToString();
 
-        _ = handler.Expect(HttpMethod.Post, url)
-                        .Respond(HttpStatusCode.OK, new StringContent(response));
+        var handler = new MockHttpMessageHandler();
+        _ = handler
+            .Expect(HttpMethod.Post, uriBuilder.ToString())
+            .Respond(HttpStatusCode.OK, new StringContent(response));
 
         var fakeHttpClient = handler.ToHttpClient();
         var fakeLog = NullLogger<GameApiClient>.Instance;

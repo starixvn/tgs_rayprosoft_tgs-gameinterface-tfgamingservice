@@ -9,6 +9,7 @@ namespace Tgs.GameInterface.TFGamingService.GrpcServices;
 
 internal class GameInterfaceTFGamingGrpcService : GameInterfaceTFGamingService.GameInterfaceTFGamingServiceBase
 {
+    private readonly ILogger<GameInterfaceTFGamingGrpcService> _logger;
     private readonly IGetService<FundInQuery, FundResult> _fundInService;
     private readonly IGetService<FundOutQuery, FundResult> _fundOutService;
     private readonly IGetService<FundStatusQuery, bool> _fundStatusService;
@@ -21,6 +22,7 @@ internal class GameInterfaceTFGamingGrpcService : GameInterfaceTFGamingService.G
     private readonly IQueryService<GameHistoryUnsettledQuery, GameHistoryUnsettledResult> _gameHistoryUnsettledService;
 
     public GameInterfaceTFGamingGrpcService(
+        ILogger<GameInterfaceTFGamingGrpcService> logger,
         IGetService<FundInQuery, FundResult> fundInService,
         IGetService<FundOutQuery, FundResult> fundOutService,
         IGetService<FundStatusQuery, bool> fundStatusService,
@@ -32,6 +34,7 @@ internal class GameInterfaceTFGamingGrpcService : GameInterfaceTFGamingService.G
         IQueryService<GameHistorySettledQuery, GameHistorySettledResult> gameHistorySettledService,
         IQueryService<GameHistoryUnsettledQuery, GameHistoryUnsettledResult> gameHistoryUnsettledService)
     {
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _fundInService = fundInService ?? throw new ArgumentNullException(nameof(fundInService));
         _fundOutService = fundOutService ?? throw new ArgumentNullException(nameof(fundOutService));
         _fundStatusService = fundStatusService ?? throw new ArgumentNullException(nameof(fundStatusService));
@@ -42,6 +45,16 @@ internal class GameInterfaceTFGamingGrpcService : GameInterfaceTFGamingService.G
         _fundHistoryService = fundHistoryService ?? throw new ArgumentNullException(nameof(fundHistoryService));
         _gameHistorySettledService = gameHistorySettledService ?? throw new ArgumentNullException(nameof(gameHistorySettledService));
         _gameHistoryUnsettledService = gameHistoryUnsettledService ?? throw new ArgumentNullException(nameof(gameHistoryUnsettledService));
+    }
+
+    public override Task<CheckingServiceReply> CheckingService(CheckingServiceRequest request, ServerCallContext context)
+    {
+        _logger.LogWarning("LogOn:{logOn} Message: Create a check connection.({machineName})", DateTime.Now.ToString("o"), request.MachineName);
+
+        return Task.FromResult(new CheckingServiceReply
+        {
+            MachineName = Environment.MachineName
+        });
     }
 
     public override async Task<FundReply> FundIn(FundRequest request, ServerCallContext context)

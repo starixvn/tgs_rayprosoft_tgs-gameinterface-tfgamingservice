@@ -363,7 +363,7 @@ public class TFGamingController : ControllerBase
             ApiUrl: model.ApiUrl,
             model.PrivateToken,
             StartTime: model.StartTime,
-            EndTime: model.EndTime,            
+            EndTime: model.EndTime,
             PageSize: model.PageSize);
 
         var gameRecords = await service

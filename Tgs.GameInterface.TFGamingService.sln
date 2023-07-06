@@ -9,14 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgs.GameInterface.TFGamingS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgs.GameInterface.TFGamingService.Core.UnitTest", "Tgs.GameInterface.TFGamingService.Core.UnitTest\Tgs.GameInterface.TFGamingService.Core.UnitTest.csproj", "{279BD3AE-410C-481A-82D9-8A6820FBB589}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{49155BB2-3546-4CB0-80CE-7775CF41EF9D}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-		CodeMaid.config = CodeMaid.config
-		nuget.config = nuget.config
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgs.GameInterface.TFGamingService.Client", "Tgs.GameInterface.TFGamingService.Client\Tgs.GameInterface.TFGamingService.Client.csproj", "{2B360CB6-BCFB-40A4-ACA7-B8DD4194BD89}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgs.GameInterface.TFGamingService.Client", "Tgs.GameInterface.TFGamingService.Client\Tgs.GameInterface.TFGamingService.Client.csproj", "{2B360CB6-BCFB-40A4-ACA7-B8DD4194BD89}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
