@@ -7,49 +7,22 @@ using Enum = System.Enum;
 
 namespace Tgs.GameInterface.TFGamingService.GrpcServices;
 
-internal class GameInterfaceTFGamingGrpcService : GameInterfaceTFGamingService.GameInterfaceTFGamingServiceBase
+internal class GameInterfaceTFGamingGrpcService(
+    ILogger<GameInterfaceTFGamingGrpcService> logger,
+    IGetService<FundInQuery, FundResult> fundInService,
+    IGetService<FundOutQuery, FundResult> fundOutService,
+    IGetService<FundStatusQuery, bool> fundStatusService,
+    ICommandService<PlayerCreateCommand> playerCreateService,
+    ICommandService<PlayerKickCommand> playerKickService,
+    IGetService<PlayerBalanceQuery, PlayerBalanceResult> playerBalanceService,
+    IGetService<GameUrlQuery, string?> gameUrlService,
+    IQueryService<FundHistoryQuery, FundHistoryResult> fundHistoryService,
+    IQueryService<GameHistorySettledQuery, GameHistorySettledResult> gameHistorySettledService,
+    IQueryService<GameHistoryUnsettledQuery, GameHistoryUnsettledResult> gameHistoryUnsettledService) : GameInterfaceTFGamingService.GameInterfaceTFGamingServiceBase
 {
-    private readonly ILogger<GameInterfaceTFGamingGrpcService> _logger;
-    private readonly IGetService<FundInQuery, FundResult> _fundInService;
-    private readonly IGetService<FundOutQuery, FundResult> _fundOutService;
-    private readonly IGetService<FundStatusQuery, bool> _fundStatusService;
-    private readonly ICommandService<PlayerCreateCommand> _playerCreateService;
-    private readonly ICommandService<PlayerKickCommand> _playerKickService;
-    private readonly IGetService<PlayerBalanceQuery, PlayerBalanceResult> _playerBalanceService;
-    private readonly IGetService<GameUrlQuery, string?> _gameUrlService;
-    private readonly IQueryService<FundHistoryQuery, FundHistoryResult> _fundHistoryService;
-    private readonly IQueryService<GameHistorySettledQuery, GameHistorySettledResult> _gameHistorySettledService;
-    private readonly IQueryService<GameHistoryUnsettledQuery, GameHistoryUnsettledResult> _gameHistoryUnsettledService;
-
-    public GameInterfaceTFGamingGrpcService(
-        ILogger<GameInterfaceTFGamingGrpcService> logger,
-        IGetService<FundInQuery, FundResult> fundInService,
-        IGetService<FundOutQuery, FundResult> fundOutService,
-        IGetService<FundStatusQuery, bool> fundStatusService,
-        ICommandService<PlayerCreateCommand> playerCreateService,
-        ICommandService<PlayerKickCommand> playerKickService,
-        IGetService<PlayerBalanceQuery, PlayerBalanceResult> playerBalanceService,
-        IGetService<GameUrlQuery, string?> gameUrlService,
-        IQueryService<FundHistoryQuery, FundHistoryResult> fundHistoryService,
-        IQueryService<GameHistorySettledQuery, GameHistorySettledResult> gameHistorySettledService,
-        IQueryService<GameHistoryUnsettledQuery, GameHistoryUnsettledResult> gameHistoryUnsettledService)
-    {
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _fundInService = fundInService ?? throw new ArgumentNullException(nameof(fundInService));
-        _fundOutService = fundOutService ?? throw new ArgumentNullException(nameof(fundOutService));
-        _fundStatusService = fundStatusService ?? throw new ArgumentNullException(nameof(fundStatusService));
-        _playerCreateService = playerCreateService ?? throw new ArgumentNullException(nameof(playerCreateService));
-        _playerKickService = playerKickService ?? throw new ArgumentNullException(nameof(playerKickService));
-        _playerBalanceService = playerBalanceService ?? throw new ArgumentNullException(nameof(playerBalanceService));
-        _gameUrlService = gameUrlService ?? throw new ArgumentNullException(nameof(gameUrlService));
-        _fundHistoryService = fundHistoryService ?? throw new ArgumentNullException(nameof(fundHistoryService));
-        _gameHistorySettledService = gameHistorySettledService ?? throw new ArgumentNullException(nameof(gameHistorySettledService));
-        _gameHistoryUnsettledService = gameHistoryUnsettledService ?? throw new ArgumentNullException(nameof(gameHistoryUnsettledService));
-    }
-
     public override Task<CheckingServiceReply> CheckingService(CheckingServiceRequest request, ServerCallContext context)
     {
-        _logger.LogWarning("LogOn:{logOn} Message: Create a check connection.({machineName})", DateTime.Now.ToString("o"), request.MachineName);
+        logger.LogWarning("LogOn:{logOn} Message: Create a check connection.({machineName})", DateTime.Now.ToString("o"), request.MachineName);
 
         return Task.FromResult(new CheckingServiceReply
         {
@@ -68,7 +41,7 @@ internal class GameInterfaceTFGamingGrpcService : GameInterfaceTFGamingService.G
             Amount: request.Amount.ToDecimal().GetValueOrDefault(0)
         );
 
-        var result = await _fundInService
+        var result = await fundInService
                 .GetAsync(
                     query: query,
                     cancellationToken: context.CancellationToken)
@@ -92,7 +65,7 @@ internal class GameInterfaceTFGamingGrpcService : GameInterfaceTFGamingService.G
             RefTransactionCode: request.RefTransactionCode,
             Amount: request.Amount.ToDecimal().GetValueOrDefault(0));
 
-        var result = await _fundOutService
+        var result = await fundOutService
                 .GetAsync(
                     query: query,
                     cancellationToken: context.CancellationToken)
@@ -113,7 +86,7 @@ internal class GameInterfaceTFGamingGrpcService : GameInterfaceTFGamingService.G
             PrivateToken: request.PrivateToken,
             RefTransactionCode: request.RefTransactionCode);
 
-        var result = await _fundStatusService
+        var result = await fundStatusService
                 .GetAsync(
                     query: query,
                     cancellationToken: context.CancellationToken)
@@ -132,7 +105,7 @@ internal class GameInterfaceTFGamingGrpcService : GameInterfaceTFGamingService.G
             PrivateToken: request.PrivateToken,
             MemberCode: request.MemberCode);
 
-        var result = await _gameUrlService
+        var result = await gameUrlService
             .GetAsync(
                 query: query,
                 cancellationToken: context.CancellationToken)
@@ -153,7 +126,7 @@ internal class GameInterfaceTFGamingGrpcService : GameInterfaceTFGamingService.G
             EndTime: request.EndTime.ToDateTime(),
             PageSize: request.PageSize);
 
-        var gameHistorySettleds = await _gameHistorySettledService
+        var gameHistorySettleds = await gameHistorySettledService
                 .QueryAsync(
                     query: query,
                     cancellationToken: context.CancellationToken)
@@ -161,7 +134,7 @@ internal class GameInterfaceTFGamingGrpcService : GameInterfaceTFGamingService.G
                 .ConfigureAwait(false);
         var reply = new GameHistorySettledReply();
 
-        if (gameHistorySettleds.Any())
+        if (gameHistorySettleds.Length != 0)
         {
             foreach (var gameHistorySettled in gameHistorySettleds)
             {
@@ -194,7 +167,7 @@ internal class GameInterfaceTFGamingGrpcService : GameInterfaceTFGamingService.G
             EndTime: request.EndTime.ToDateTime(),
             PageSize: request.PageSize);
 
-        var gameHistoryUnsettleds = await _gameHistoryUnsettledService
+        var gameHistoryUnsettleds = await gameHistoryUnsettledService
                 .QueryAsync(
                     query: query,
                     cancellationToken: context.CancellationToken)
@@ -202,7 +175,7 @@ internal class GameInterfaceTFGamingGrpcService : GameInterfaceTFGamingService.G
                 .ConfigureAwait(false);
         var reply = new GameHistoryUnsettledReply();
 
-        if (gameHistoryUnsettleds.Any())
+        if (gameHistoryUnsettleds.Length != 0)
         {
             foreach (var gameHistoryUnsettled in gameHistoryUnsettleds)
             {
@@ -228,7 +201,7 @@ internal class GameInterfaceTFGamingGrpcService : GameInterfaceTFGamingService.G
             PrivateToken: request.PrivateToken,
             MemberCode: request.MemberCode);
 
-        var result = await _playerBalanceService
+        var result = await playerBalanceService
                 .GetAsync(
                     query: query,
                     cancellationToken: context.CancellationToken)
@@ -248,7 +221,7 @@ internal class GameInterfaceTFGamingGrpcService : GameInterfaceTFGamingService.G
             PrivateToken: request.PrivateToken,
             MemberCode: request.MemberCode);
 
-        await _playerCreateService
+        await playerCreateService
                 .ExecuteAsync(
                     command: command,
                     cancellationToken: context.CancellationToken)
@@ -268,7 +241,7 @@ internal class GameInterfaceTFGamingGrpcService : GameInterfaceTFGamingService.G
             OperatorId: request.OperatorId,
             Member: request.Member);
 
-        await _playerKickService
+        await playerKickService
             .ExecuteAsync(
                 command: command,
                 cancellationToken: context.CancellationToken)
@@ -289,7 +262,7 @@ internal class GameInterfaceTFGamingGrpcService : GameInterfaceTFGamingService.G
             Page: request.Page,
             PageSize: request.PageSize);
 
-        var fundHistorys = await _fundHistoryService
+        var fundHistorys = await fundHistoryService
                 .QueryAsync(
                     query: query,
                     cancellationToken: context.CancellationToken)
@@ -297,7 +270,7 @@ internal class GameInterfaceTFGamingGrpcService : GameInterfaceTFGamingService.G
                 .ConfigureAwait(false);
         var reply = new FundHistoryReply();
 
-        if (fundHistorys.Any())
+        if (fundHistorys.Length != 0)
         {
             foreach (var fundHistory in fundHistorys)
             {

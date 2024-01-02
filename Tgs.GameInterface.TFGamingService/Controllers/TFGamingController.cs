@@ -179,7 +179,7 @@ public class TFGamingController : ControllerBase
                     cancellationToken: HttpContext.RequestAborted)
                 .ConfigureAwait(false);
 
-        if (!fundHistorys.Any())
+        if (fundHistorys.Length == 0)
         {
             yield break;
         }
@@ -374,7 +374,7 @@ public class TFGamingController : ControllerBase
                     cancellationToken: HttpContext.RequestAborted)
                 .ConfigureAwait(false);
 
-        if (!gameRecords.Any())
+        if (gameRecords.Length == 0)
         {
             yield break;
         }
@@ -436,7 +436,7 @@ public class TFGamingController : ControllerBase
                     cancellationToken: HttpContext.RequestAborted)
                 .ConfigureAwait(false);
 
-        if (!gameRecords.Any())
+        if (gameRecords.Length == 0)
         {
             yield break;
         }

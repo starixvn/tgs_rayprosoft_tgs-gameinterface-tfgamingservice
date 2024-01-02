@@ -4,15 +4,9 @@ using Tgs.GameInterface.TFGamingService.Protos;
 
 namespace Tgs.GameInterface.TFGamingService.Client;
 
-internal class GameInterfaceTFGamingClient : IGameInterfaceTFGamingClient
+internal class GameInterfaceTFGamingClient(
+    GameInterfaceTFGamingService.GameInterfaceTFGamingServiceClient client) : IGameInterfaceTFGamingClient
 {
-    private readonly GameInterfaceTFGamingService.GameInterfaceTFGamingServiceClient _client;
-
-    public GameInterfaceTFGamingClient(GameInterfaceTFGamingService.GameInterfaceTFGamingServiceClient client)
-    {
-        _client = client ?? throw new ArgumentNullException(nameof(client));
-    }
-
     public async ValueTask<string> CheckingServiceAsync(
         string machineName,
         CancellationToken cancellationToken = default)
@@ -22,7 +16,7 @@ internal class GameInterfaceTFGamingClient : IGameInterfaceTFGamingClient
             MachineName = machineName,
         };
 
-        var reply = await _client
+        var reply = await client
             .CheckingServiceAsync(
                 request: request,
                 cancellationToken: cancellationToken)
@@ -48,13 +42,13 @@ internal class GameInterfaceTFGamingClient : IGameInterfaceTFGamingClient
             PageSize = pageSize.GetValueOrDefault(100),
         };
 
-        var reply = await _client
+        var reply = await client
                 .FundHistoryAsync(
                     request: request,
                     cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
 
-        if (!reply.Items.Any())
+        if (reply.Items.Count == 0)
         {
             yield break;
         }
@@ -77,7 +71,7 @@ internal class GameInterfaceTFGamingClient : IGameInterfaceTFGamingClient
             Amount = amount
         };
 
-        return await _client
+        return await client
                 .FundInAsync(
                     request: request,
                     cancellationToken: cancellationToken)
@@ -96,7 +90,7 @@ internal class GameInterfaceTFGamingClient : IGameInterfaceTFGamingClient
             Amount = amount
         };
 
-        return await _client
+        return await client
                 .FundOutAsync(
                     request: request,
                     cancellationToken: cancellationToken)
@@ -112,7 +106,7 @@ internal class GameInterfaceTFGamingClient : IGameInterfaceTFGamingClient
             RefTransactionCode = refTransactionCode
         };
 
-        var reply = await _client
+        var reply = await client
                 .FundStatusAsync(
                     request: request,
                     cancellationToken: cancellationToken)
@@ -138,13 +132,13 @@ internal class GameInterfaceTFGamingClient : IGameInterfaceTFGamingClient
             PageSize = pageSize,
         };
 
-        var reply = await _client
+        var reply = await client
                 .GameHistorySettledAsync(
                     request: request,
                     cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
 
-        if (!reply.Items.Any())
+        if (reply.Items.Count == 0)
         {
             yield break;
         }
@@ -172,13 +166,13 @@ internal class GameInterfaceTFGamingClient : IGameInterfaceTFGamingClient
             PageSize = pageSize,
         };
 
-        var reply = await _client
+        var reply = await client
                 .GameHistoryUnsettledAsync(
                     request: request,
                     cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
 
-        if (!reply.Items.Any())
+        if (reply.Items.Count == 0)
         {
             yield break;
         }
@@ -198,7 +192,7 @@ internal class GameInterfaceTFGamingClient : IGameInterfaceTFGamingClient
             MemberCode = memberCode,
         };
 
-        return await _client
+        return await client
             .GameUrlAsync(
                 request: request,
                 cancellationToken: cancellation)
@@ -214,7 +208,7 @@ internal class GameInterfaceTFGamingClient : IGameInterfaceTFGamingClient
             MemberCode = memberCode,
         };
 
-        return await _client.PlayerBalanceAsync(
+        return await client.PlayerBalanceAsync(
             request: request,
             cancellationToken: cancellationToken)
             .ConfigureAwait(false);
@@ -229,7 +223,7 @@ internal class GameInterfaceTFGamingClient : IGameInterfaceTFGamingClient
             MemberCode = memberCode,
         };
 
-        _ = await _client
+        _ = await client
             .PlayerCreateAsync(request, cancellationToken: cancellationToken)
             .ConfigureAwait(false);
     }
@@ -244,7 +238,7 @@ internal class GameInterfaceTFGamingClient : IGameInterfaceTFGamingClient
             Member = member,
         };
 
-        _ = await _client
+        _ = await client
             .PlayerKickAsync(request, cancellationToken: cancellationToken)
             .ConfigureAwait(false);
     }

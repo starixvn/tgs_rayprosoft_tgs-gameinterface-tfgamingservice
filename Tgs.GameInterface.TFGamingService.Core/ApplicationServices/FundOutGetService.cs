@@ -2,18 +2,12 @@
 
 namespace Tgs.GameInterface.TFGamingService.Core.ApplicationServices;
 
-internal class FundOutGetService : IGetService<FundOutQuery, FundResult>
+internal class FundOutGetService(
+    IGameApiClient client) : IGetService<FundOutQuery, FundResult>
 {
-    private readonly IGameApiClient _client;
-
-    public FundOutGetService(IGameApiClient client)
-    {
-        _client = client ?? throw new ArgumentNullException(nameof(client));
-    }
-
     public async ValueTask<FundResult> GetAsync(FundOutQuery query, CancellationToken cancellationToken = default)
     {
-        var result = await _client.DepositAsync(
+        var result = await client.DepositAsync(
             apiUrl: query.ApiUrl,
             privateToken: query.PrivateToken,
             operatorId: query.OperatorId,
@@ -22,7 +16,7 @@ internal class FundOutGetService : IGetService<FundOutQuery, FundResult>
             referenceNo: query.RefTransactionCode,
             cancellationToken: cancellationToken).ConfigureAwait(false);
 
-        var transferResults = await _client
+        var transferResults = await client
            .TransferHistoryAsync(query.ApiUrl, query.PrivateToken, query.RefTransactionCode, page: null, pageSize: null, cancellationToken: cancellationToken)
            .ToArrayAsync(cancellationToken)
            .ConfigureAwait(false);

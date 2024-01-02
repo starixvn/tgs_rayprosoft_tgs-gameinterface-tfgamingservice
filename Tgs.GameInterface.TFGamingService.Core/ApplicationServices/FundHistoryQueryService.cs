@@ -3,19 +3,12 @@ using Tgs.ServiceUtility;
 
 namespace Tgs.GameInterface.TFGamingService.Core.ApplicationServices;
 
-internal class FundHistoryQueryService : IQueryService<FundHistoryQuery, FundHistoryResult>
+internal class FundHistoryQueryService(
+    IGameApiClient client) : IQueryService<FundHistoryQuery, FundHistoryResult>
 {
-    private readonly IGameApiClient _client;
-
-    public FundHistoryQueryService(
-        IGameApiClient client)
-    {
-        _client = client ?? throw new ArgumentNullException(nameof(client));
-    }
-
     public async IAsyncEnumerable<FundHistoryResult> QueryAsync(FundHistoryQuery query, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        var fundHistorys = await _client
+        var fundHistorys = await client
                 .TransferHistoryAsync(
                     apiUrl: query.ApiUrl,
                     privateToken: query.PrivateToken,
@@ -26,7 +19,7 @@ internal class FundHistoryQueryService : IQueryService<FundHistoryQuery, FundHis
                 .ToArrayAsync(cancellationToken)
                 .ConfigureAwait(false);
 
-        if (!fundHistorys.Any())
+        if (fundHistorys.Length == 0)
         {
             yield break;
         }

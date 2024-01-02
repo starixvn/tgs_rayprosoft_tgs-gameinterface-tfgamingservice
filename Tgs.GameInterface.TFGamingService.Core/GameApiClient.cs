@@ -10,19 +10,10 @@ using Tgs.GameInterface.TFGamingService.Core.Models;
 
 namespace Tgs.GameInterface.TFGamingService.Core;
 
-internal class GameApiClient : IGameApiClient
+internal class GameApiClient(
+    HttpClient client,
+    ILogger<GameApiClient> logger) : IGameApiClient
 {
-    private readonly HttpClient _client;
-    private readonly ILogger<GameApiClient> _logger;
-
-    public GameApiClient(
-        HttpClient client,
-        ILogger<GameApiClient> logger)
-    {
-        _client = client ?? throw new ArgumentNullException(nameof(client));
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-    }
-
     public async ValueTask CreateMemberAsync(Uri apiUrl, string privateToken, string memberCode, CancellationToken cancellationToken = default)
     {
         var parameters = new Dictionary<string, string>
@@ -65,7 +56,7 @@ internal class GameApiClient : IGameApiClient
 
         var results = jsonNode["results"]!.AsArray();
 
-        if (!results.Any())
+        if (results.Count == 0)
             return new MemberBalanceResult(false, 0);
 
         var balance = results.First()?["balance"]?.GetValue<decimal>() ?? 0M;
@@ -362,8 +353,8 @@ internal class GameApiClient : IGameApiClient
         var content = new StringContent(JsonSerializer.Serialize(parameters));
         content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", apiToken);
-        var httpResponseMessage = await _client.PostAsync(apiUrl, content, cancellationToken);
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", apiToken);
+        var httpResponseMessage = await client.PostAsync(apiUrl, content, cancellationToken);
 
         sw.Stop();
 
@@ -392,7 +383,7 @@ internal class GameApiClient : IGameApiClient
             RecordedOn = DateTimeOffset.UtcNow
         };
 
-        _logger.LogInformation("{apiLogEvent}", JsonSerializer.Serialize(apiLogEvent));
+        logger.LogInformation("{apiLogEvent}", JsonSerializer.Serialize(apiLogEvent));
 
         _ = httpResponseMessage.EnsureSuccessStatusCode();
 
@@ -412,9 +403,9 @@ internal class GameApiClient : IGameApiClient
             queryStrings.Add(item.Key, item.Value);
         }
 
-        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", apiToken);
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", apiToken);
 
-        var httpResponseMessage = await _client
+        var httpResponseMessage = await client
             .GetAsync($"{apiUrl}?{queryStrings}", cancellationToken)
             .ConfigureAwait(false);
 
@@ -445,7 +436,7 @@ internal class GameApiClient : IGameApiClient
             RecordedOn = DateTimeOffset.UtcNow
         };
 
-        _logger.LogInformation("{apiLogEvent}", JsonSerializer.Serialize(apiLogEvent));
+        logger.LogInformation("{apiLogEvent}", JsonSerializer.Serialize(apiLogEvent));
 
         _ = httpResponseMessage.EnsureSuccessStatusCode();
 
