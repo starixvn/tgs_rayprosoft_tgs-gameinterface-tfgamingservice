@@ -2,5 +2,5 @@
 
 public class GameInterfaceTFGamingClientOptions
 {
-    public Uri BaseUrl { get; set; } = default!;
+	public Uri BaseUrl { get; set; } = default!;
 }

@@ -3,14 +3,14 @@
 namespace Tgs.GameInterface.TFGamingService.Core.ApplicationServices;
 
 internal class PlayerKickCommandService(
-    IGameApiClient client) : ICommandService<PlayerKickCommand>
+	IGameApiClient client) : ICommandService<PlayerKickCommand>
 {
-    public async ValueTask ExecuteAsync(PlayerKickCommand command, CancellationToken cancellationToken = default)
-    {
-        _ = await client
-            .PartnerAccountLogoutAsync(command.ApiUrl, command.PrivateToken, command.Member, command.OperatorId, cancellationToken)
-            .ConfigureAwait(false);
+	public async ValueTask ExecuteAsync(PlayerKickCommand command, CancellationToken cancellationToken = default)
+	{
+		_ = await client
+			.PartnerAccountLogoutAsync(command.ApiUrl, command.PrivateToken, command.Member, command.OperatorId, cancellationToken)
+			.ConfigureAwait(false);
 
-        return;
-    }
+		return;
+	}
 }

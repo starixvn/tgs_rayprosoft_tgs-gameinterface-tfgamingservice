@@ -9,14 +9,14 @@ namespace Tgs.GameInterface.TFGamingService.Core.UnitTest;
 [TestClass]
 public class CreateMemberUnitTest
 {
-    [TestMethod]
-    public async Task 創建玩家成功()
-    {
-        var memberCode = "4ucmqplxkuyd";
-        var apiUrl = new Uri($"https://spi-test.r4espt.com/api/v2/members/");
-        var privateToken = "00022362f50e16fa474c80fc24da29793420aff6ce4b5d05a4a7dc52a261078ce72ceef10e7dc28f7bcfe89fe4922624fe72992e1f2f4f78360e4360970ce1b3f2e4567d01b071190c9051058fc1c14202f4ea117497c29fdbe8c9eddfb0e4fa6a3efe3bcbc7cfd8665c5b311e4a7065b8ad37a1a30d64919d8a3f2ff82c2ead23eb";
+	[TestMethod]
+	public async Task 創建玩家成功()
+	{
+		var memberCode = "4ucmqplxkuyd";
+		var apiUrl = new Uri($"https://spi-test.r4espt.com/api/v2/members/");
+		var privateToken = "00022362f50e16fa474c80fc24da29793420aff6ce4b5d05a4a7dc52a261078ce72ceef10e7dc28f7bcfe89fe4922624fe72992e1f2f4f78360e4360970ce1b3f2e4567d01b071190c9051058fc1c14202f4ea117497c29fdbe8c9eddfb0e4fa6a3efe3bcbc7cfd8665c5b311e4a7065b8ad37a1a30d64919d8a3f2ff82c2ead23eb";
 
-        var response = """
+		var response = """
                 {
                     "member_code": "4ucmqplxkuyd",
                     "combo_limit_amount": null,
@@ -30,32 +30,32 @@ public class CreateMemberUnitTest
                 }
             """;
 
-        var handler = new MockHttpMessageHandler();
-        _ = handler
-            .Expect(HttpMethod.Post, apiUrl.ToString())
-            .Respond(HttpStatusCode.OK, new StringContent(response));
+		var handler = new MockHttpMessageHandler();
+		_ = handler
+			.Expect(HttpMethod.Post, apiUrl.ToString())
+			.Respond(HttpStatusCode.OK, new StringContent(response));
 
-        var fakeHttpClient = handler.ToHttpClient();
-        var fakeLog = NullLogger<GameApiClient>.Instance;
+		var fakeHttpClient = handler.ToHttpClient();
+		var fakeLog = NullLogger<GameApiClient>.Instance;
 
-        var sut = new GameApiClient(fakeHttpClient, fakeLog);
+		var sut = new GameApiClient(fakeHttpClient, fakeLog);
 
-        await sut
-            .CreateMemberAsync(
-                apiUrl: apiUrl,
-                privateToken: privateToken,
-                memberCode: memberCode)
-            .ConfigureAwait(false);
-    }
+		await sut
+			.CreateMemberAsync(
+				apiUrl: apiUrl,
+				privateToken: privateToken,
+				memberCode: memberCode)
+			.ConfigureAwait(false);
+	}
 
-    [TestMethod]
-    public async Task 玩家已經存在()
-    {
-        var memberCode = "4ucmqplxb029";
-        var apiUrl = new Uri($"https://spi-test.r4espt.com/api/v2/members/");
-        var privateToken = "00022362f50e16fa474c80fc24da29793420aff6ce4b5d05a4a7dc52a261078ce72ceef10e7dc28f7bcfe89fe4922624fe72992e1f2f4f78360e4360970ce1b3f2e4567d01b071190c9051058fc1c14202f4ea117497c29fdbe8c9eddfb0e4fa6a3efe3bcbc7cfd8665c5b311e4a7065b8ad37a1a30d64919d8a3f2ff82c2ead23eb";
+	[TestMethod]
+	public async Task 玩家已經存在()
+	{
+		var memberCode = "4ucmqplxb029";
+		var apiUrl = new Uri($"https://spi-test.r4espt.com/api/v2/members/");
+		var privateToken = "00022362f50e16fa474c80fc24da29793420aff6ce4b5d05a4a7dc52a261078ce72ceef10e7dc28f7bcfe89fe4922624fe72992e1f2f4f78360e4360970ce1b3f2e4567d01b071190c9051058fc1c14202f4ea117497c29fdbe8c9eddfb0e4fa6a3efe3bcbc7cfd8665c5b311e4a7065b8ad37a1a30d64919d8a3f2ff82c2ead23eb";
 
-        var response = """
+		var response = """
                 {
                     "errors": {
                         "member_code": [
@@ -65,28 +65,28 @@ public class CreateMemberUnitTest
                     "code": 1
                 }
             """;
-        var uriBuilder = new UriBuilder(apiUrl);
-        var query = HttpUtility.ParseQueryString(uriBuilder.Query);
-        uriBuilder.Query = query.ToString();
+		var uriBuilder = new UriBuilder(apiUrl);
+		var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+		uriBuilder.Query = query.ToString();
 
-        var handler = new MockHttpMessageHandler();
-        _ = handler
-            .Expect(HttpMethod.Post, uriBuilder.ToString())
-            .Respond(HttpStatusCode.OK, new StringContent(response));
+		var handler = new MockHttpMessageHandler();
+		_ = handler
+			.Expect(HttpMethod.Post, uriBuilder.ToString())
+			.Respond(HttpStatusCode.OK, new StringContent(response));
 
-        var fakeHttpClient = handler.ToHttpClient();
-        var fakeLog = NullLogger<GameApiClient>.Instance;
+		var fakeHttpClient = handler.ToHttpClient();
+		var fakeLog = NullLogger<GameApiClient>.Instance;
 
-        var sut = new GameApiClient(fakeHttpClient, fakeLog);
+		var sut = new GameApiClient(fakeHttpClient, fakeLog);
 
-        _ = await Assert
-        .ThrowsExceptionAsync<GameProviderResponseErrorException>(() =>
-            sut
-            .CreateMemberAsync(
-                apiUrl: apiUrl,
-                privateToken: privateToken,
-                memberCode: memberCode)
-            .AsTask())
-        .ConfigureAwait(false);
-    }
+		_ = await Assert
+		.ThrowsExceptionAsync<GameProviderResponseErrorException>(() =>
+			sut
+			.CreateMemberAsync(
+				apiUrl: apiUrl,
+				privateToken: privateToken,
+				memberCode: memberCode)
+			.AsTask())
+		.ConfigureAwait(false);
+	}
 }

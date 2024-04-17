@@ -1,9 +1,9 @@
 ﻿namespace Tgs.GameInterface.TFGamingService.ViewModels;
 
 public record GameHistoryUnsettledResultViewModel(
-    string PlayerCode,
-    string ExternalRoundId,
-    DateTimeOffset ExternalCreatedOn,
-    decimal Bet,
-    decimal ValidBet,
-    string AdditionalData);
+	string PlayerCode,
+	string ExternalRoundId,
+	DateTimeOffset ExternalCreatedOn,
+	decimal Bet,
+	decimal ValidBet,
+	string AdditionalData);

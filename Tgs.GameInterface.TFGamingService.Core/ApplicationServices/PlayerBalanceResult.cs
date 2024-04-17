@@ -1,5 +1,5 @@
 ﻿namespace Tgs.GameInterface.TFGamingService.Core.ApplicationServices;
 
 public record PlayerBalanceResult(
-    bool IsPlayerExist,
-    decimal? Balance);
+	bool IsPlayerExist,
+	decimal? Balance);

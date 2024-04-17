@@ -8,14 +8,14 @@ namespace Tgs.GameInterface.TFGamingService.Core.UnitTest;
 [TestClass]
 public class MemberBalanceUnitTest
 {
-    [TestMethod]
-    public async Task 查詢餘額成功()
-    {
-        var memberCode = "1234";
-        var apiUrl = new Uri($"https://spi-test.r4espt.com/api/v2/balance/");
-        var privateToken = "00022362f50e16fa474c80fc24da29793420aff6ce4b5d05a4a7dc52a261078ce72ceef10e7dc28f7bcfe89fe4922624fe72992e1f2f4f78360e4360970ce1b3f2e4567d01b071190c9051058fc1c14202f4ea117497c29fdbe8c9eddfb0e4fa6a3efe3bcbc7cfd8665c5b311e4a7065b8ad37a1a30d64919d8a3f2ff82c2ead23eb";
+	[TestMethod]
+	public async Task 查詢餘額成功()
+	{
+		var memberCode = "1234";
+		var apiUrl = new Uri($"https://spi-test.r4espt.com/api/v2/balance/");
+		var privateToken = "00022362f50e16fa474c80fc24da29793420aff6ce4b5d05a4a7dc52a261078ce72ceef10e7dc28f7bcfe89fe4922624fe72992e1f2f4f78360e4360970ce1b3f2e4567d01b071190c9051058fc1c14202f4ea117497c29fdbe8c9eddfb0e4fa6a3efe3bcbc7cfd8665c5b311e4a7065b8ad37a1a30d64919d8a3f2ff82c2ead23eb";
 
-        var response = """
+		var response = """
             {
                 "count": 1,
                 "next": null,
@@ -34,41 +34,41 @@ public class MemberBalanceUnitTest
             }
             """;
 
-        var uriBuilder = new UriBuilder(apiUrl);
-        var query = HttpUtility.ParseQueryString(uriBuilder.Query);
-        query["LoginName"] = memberCode;
-        uriBuilder.Query = query.ToString();
+		var uriBuilder = new UriBuilder(apiUrl);
+		var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+		query["LoginName"] = memberCode;
+		uriBuilder.Query = query.ToString();
 
-        var handler = new MockHttpMessageHandler();
-        _ = handler
-            .Expect(HttpMethod.Get, uriBuilder.ToString())
-            .Respond(HttpStatusCode.OK, new StringContent(response));
+		var handler = new MockHttpMessageHandler();
+		_ = handler
+			.Expect(HttpMethod.Get, uriBuilder.ToString())
+			.Respond(HttpStatusCode.OK, new StringContent(response));
 
-        var fakeHttpClient = handler.ToHttpClient();
-        var fakeLog = NullLogger<GameApiClient>.Instance;
+		var fakeHttpClient = handler.ToHttpClient();
+		var fakeLog = NullLogger<GameApiClient>.Instance;
 
-        var sut = new GameApiClient(fakeHttpClient, fakeLog);
+		var sut = new GameApiClient(fakeHttpClient, fakeLog);
 
-        var actual = await sut
-            .MemberBalanceAsync(
-                apiUrl: apiUrl,
-                privateToken: privateToken,
-                memberCode)
-            .ConfigureAwait(false);
+		var actual = await sut
+			.MemberBalanceAsync(
+				apiUrl: apiUrl,
+				privateToken: privateToken,
+				memberCode)
+			.ConfigureAwait(false);
 
-        Assert.IsNotNull(actual);
-        Assert.IsTrue(actual.IsPlayerExist);
-        Assert.AreEqual(11154.2M, actual.Balance);
-    }
+		Assert.IsNotNull(actual);
+		Assert.IsTrue(actual.IsPlayerExist);
+		Assert.AreEqual(11154.2M, actual.Balance);
+	}
 
-    [TestMethod]
-    public async Task 玩家不存在()
-    {
-        var memberCode = "1234";
-        var apiUrl = new Uri($"https://spi-test.r4espt.com/api/v2/balance/");
-        var privateToken = "00022362f50e16fa474c80fc24da29793420aff6ce4b5d05a4a7dc52a261078ce72ceef10e7dc28f7bcfe89fe4922624fe72992e1f2f4f78360e4360970ce1b3f2e4567d01b071190c9051058fc1c14202f4ea117497c29fdbe8c9eddfb0e4fa6a3efe3bcbc7cfd8665c5b311e4a7065b8ad37a1a30d64919d8a3f2ff82c2ead23eb";
+	[TestMethod]
+	public async Task 玩家不存在()
+	{
+		var memberCode = "1234";
+		var apiUrl = new Uri($"https://spi-test.r4espt.com/api/v2/balance/");
+		var privateToken = "00022362f50e16fa474c80fc24da29793420aff6ce4b5d05a4a7dc52a261078ce72ceef10e7dc28f7bcfe89fe4922624fe72992e1f2f4f78360e4360970ce1b3f2e4567d01b071190c9051058fc1c14202f4ea117497c29fdbe8c9eddfb0e4fa6a3efe3bcbc7cfd8665c5b311e4a7065b8ad37a1a30d64919d8a3f2ff82c2ead23eb";
 
-        var response = """
+		var response = """
             {
                 "count": 0,
                 "next": null,
@@ -77,30 +77,30 @@ public class MemberBalanceUnitTest
             }
             """;
 
-        var uriBuilder = new UriBuilder(apiUrl);
-        var query = HttpUtility.ParseQueryString(uriBuilder.Query);
-        query["LoginName"] = memberCode;
-        uriBuilder.Query = query.ToString();
+		var uriBuilder = new UriBuilder(apiUrl);
+		var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+		query["LoginName"] = memberCode;
+		uriBuilder.Query = query.ToString();
 
-        var handler = new MockHttpMessageHandler();
-        _ = handler
-            .Expect(HttpMethod.Get, uriBuilder.ToString())
-            .Respond(HttpStatusCode.OK, new StringContent(response));
+		var handler = new MockHttpMessageHandler();
+		_ = handler
+			.Expect(HttpMethod.Get, uriBuilder.ToString())
+			.Respond(HttpStatusCode.OK, new StringContent(response));
 
-        var fakeHttpClient = handler.ToHttpClient();
-        var fakeLog = NullLogger<GameApiClient>.Instance;
+		var fakeHttpClient = handler.ToHttpClient();
+		var fakeLog = NullLogger<GameApiClient>.Instance;
 
-        var sut = new GameApiClient(fakeHttpClient, fakeLog);
+		var sut = new GameApiClient(fakeHttpClient, fakeLog);
 
-        var actual = await sut
-            .MemberBalanceAsync(
-                apiUrl: apiUrl,
-                privateToken: privateToken,
-                memberCode)
-            .ConfigureAwait(false);
+		var actual = await sut
+			.MemberBalanceAsync(
+				apiUrl: apiUrl,
+				privateToken: privateToken,
+				memberCode)
+			.ConfigureAwait(false);
 
-        Assert.IsNotNull(actual);
-        Assert.IsFalse(actual.IsPlayerExist);
-        Assert.IsTrue(actual.Balance == 0);
-    }
+		Assert.IsNotNull(actual);
+		Assert.IsFalse(actual.IsPlayerExist);
+		Assert.IsTrue(actual.Balance == 0);
+	}
 }
