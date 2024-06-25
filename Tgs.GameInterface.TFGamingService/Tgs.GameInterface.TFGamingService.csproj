@@ -15,10 +15,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="Protos\gameinterfacetfgamingservice.proto" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="FluentdForward.OpenTelemetry.MessagePack" Version="0.3.8" />
 		<PackageReference Include="Grpc.AspNetCore" Version="2.63.0" />
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.20.1" />
@@ -39,10 +35,7 @@
 
 	<ItemGroup>
     <ProjectReference Include="..\Tgs.GameInterface.TFGamingService.Core\Tgs.GameInterface.TFGamingService.Core.csproj" />
+    <ProjectReference Include="..\Tgs.GameInterface.TFGamingService.Protos\Tgs.GameInterface.TFGamingService.Protos.csproj" />
   </ItemGroup>
-
-	<ItemGroup>
-	  <Protobuf Include="Protos\gameinterfacetfgamingservice.proto" GrpcServices="Server" />
-	</ItemGroup>
 
 </Project>
